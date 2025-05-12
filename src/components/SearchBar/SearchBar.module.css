@@ -1,0 +1,41 @@
+.wrapper {
+    padding: 0 0 48px;
+}
+
+.input {
+    width: 286px;
+    border-radius: 8px;
+    margin-right: 12px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #02fd80;
+    border: 1px solid #20b2aa;
+    background-color: transparent;
+    outline: none;
+}
+
+.input::placeholder {
+    color: rgba(2, 253, 128, 0.30);
+}
+
+.button {
+    display: inline-block;
+    width: 120px;
+    /* height: 38px; */
+    padding: 8px;
+    border-radius: 8px;
+    border: 3px solid #20b2aa;
+    color: #02fd80;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 400ms ease;
+    transition-property: box-shadow;
+}
+
+.button:hover {
+    box-shadow: 0 0 16px #20b2aa;
+}

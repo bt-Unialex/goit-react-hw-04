@@ -1,0 +1,24 @@
+.button {
+    margin-top: 12px;
+
+    display: inline-block;
+    width: 120px;
+    /* height: 38px; */
+    padding: 8px;
+    border-radius: 8px;
+    border: 3px solid #20b2aa;
+    color: #02fd80;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 400ms ease;
+    transition-property: box-shadow, transform;
+}
+
+.button:hover {
+    box-shadow: 0 0 16px #20b2aa;
+    /* transform: scale(1.04); */
+}

@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 8px;
+    gap: 8px;
+    border: 1px solid #20b2aa;
+}
+
+.item {
+    flex-basis: calc((100% - 4 * 8px) / 5);
+    height: 155px;
+}
