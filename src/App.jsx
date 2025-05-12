@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { searchImage } from './searchImage';
 import SearchBar from './components/SearchBar/SearchBar';
 import Loader from './components/Loader/Loader';
@@ -13,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [imgForModal, setImgForModal] = useState({});
+  const galleryRef = useRef(null);
 
   function toggleModal() {
     setModalIsOpen(!modalIsOpen);
@@ -33,6 +34,13 @@ function App() {
       console.error(error);
     } finally {
       setIsLoading(false);
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: galleryRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }, 300);
     }
   }
 
@@ -47,7 +55,11 @@ function App() {
       <SearchBar onSubmit={loadImg} />
       <main>
         {gallery.images?.length ? (
-          <ImageGallery images={gallery.images} showImg={showImg} />
+          <ImageGallery
+            ref={galleryRef}
+            images={gallery.images}
+            showImg={showImg}
+          />
         ) : (
           <ErrorMessage />
         )}
