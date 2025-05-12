@@ -1,15 +1,25 @@
 import axios from 'axios';
 
 export function searchImage(request, page = 1, per_page = 20) {
-  const API_KEY = import.meta.env.VITE_PIXABAY_API_KEY;
+  const API_KEY = import.meta.env.VITE_UNSPLASH_API_KEY;
 
-  const BASE_URL = 'https://pixabay.com/api/';
+  // const API_KEY = import.meta.env.VITE_PIXABAY_API_KEY;
+  // const BASE_URL = 'https://pixabay.com/api/';
+  // const param = new URLSearchParams({
+  //   key: API_KEY,
+  //   q: encodeURIComponent(request),
+  //   image_type: 'photo',
+  //   orientation: 'horizontal',
+  //   safesearch: true,
+  //   page: page,
+  //   per_page: per_page,
+  // });
+  const BASE_URL = 'https://api.unsplash.com/search/photos';
   const param = new URLSearchParams({
-    key: API_KEY,
-    q: encodeURIComponent(request),
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
+    client_id: API_KEY,
+    query: encodeURIComponent(request),
+    // orientation: 'landscape',
+    // content_filter: "high",
     page: page,
     per_page: per_page,
   });
@@ -17,12 +27,19 @@ export function searchImage(request, page = 1, per_page = 20) {
   const URL = `${BASE_URL}?${param}`;
 
   const response = axios.get(URL).then((response) => {
+    console.log(response);
     return {
       quary: request,
-      images: response.data.hits,
+      images: response.data.results,
       pagesLoaded: page,
-      pagesAvailable: Math.ceil(response.data.totalHits / 20),
+      pagesAvailable: response.data.total_pages,
     };
+    // return {
+    //   quary: request,
+    //   images: response.data.hits,
+    //   pagesLoaded: page,
+    //   pagesAvailable: Math.ceil(response.data.totalHits / 20),
+    // };
   });
   return response;
 }

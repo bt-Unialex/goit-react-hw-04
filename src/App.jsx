@@ -67,7 +67,7 @@ function App() {
         {gallery.pagesLoaded < gallery.pagesAvailable && (
           <LoadMoreBtn gallery={gallery} onClick={loadImg} />
         )}
-        {imgForModal.largeImageURL && (
+        {imgForModal.urls.full && (
           <ImageModal
             modalIsOpen={modalIsOpen}
             image={imgForModal}
