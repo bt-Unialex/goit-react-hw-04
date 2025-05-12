@@ -3,7 +3,7 @@ import css from './ImageModal.module.css';
 import Modal from 'react-modal';
 
 export default function ImageModal({ image, modalIsOpen, onClose }) {
-  Modal.setAppElement('#root');
+  Modal.setAppElement('#modal');
 
   return (
     <>
@@ -11,7 +11,7 @@ export default function ImageModal({ image, modalIsOpen, onClose }) {
         isOpen={modalIsOpen}
         //   onAfterOpen={afterOpenModal}
         onRequestClose={onClose}
-        // contentLabel="Example Modal"
+        contentLabel="Full image Modal"
         className={css.Modal}
         overlayClassName={css.Overlay}>
         <p className={css.text}>

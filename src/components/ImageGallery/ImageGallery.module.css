@@ -5,9 +5,11 @@
     padding: 8px;
     gap: 8px;
     border: 1px solid #20b2aa;
+    width: 100%;
 }
 
 .item {
     flex-basis: calc((100% - 4 * 8px) / 5);
+    min-width: 19%;
     height: 155px;
 }

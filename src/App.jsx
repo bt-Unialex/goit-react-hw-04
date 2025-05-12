@@ -1,5 +1,6 @@
 import './App.css';
 import { useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { searchImage } from './searchImage';
 import SearchBar from './components/SearchBar/SearchBar';
 import Loader from './components/Loader/Loader';
@@ -9,10 +10,10 @@ import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
 
 function App() {
-  const [gallery, setGallery] = useState({});
+  const [gallery, setGallery] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [imgForModal, setImgForModal] = useState({});
+  const [imgForModal, setImgForModal] = useState(null);
   const galleryRef = useRef(null);
 
   function toggleModal() {
@@ -22,18 +23,19 @@ function App() {
   async function loadImg(quary, page = 1) {
     try {
       if (page === 1) {
-        setGallery({});
+        setGallery(null);
       }
       setIsLoading(true);
+
       const newGallery = await searchImage(quary, page);
+      if (newGallery.images.length === 0) {
+        toast.error('No image for your request');
+        return;
+      }
       setGallery((prevGallery) => ({
         ...newGallery,
-        images: [...(prevGallery.images || []), ...newGallery.images],
+        images: [...(prevGallery?.images || []), ...newGallery.images],
       }));
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
 
       setTimeout(() => {
         window.scrollTo({
@@ -41,20 +43,23 @@ function App() {
           behavior: 'smooth',
         });
       }, 300);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   function showImg(img) {
     setImgForModal(img);
     setModalIsOpen(true);
-    // console.log(img);
   }
 
   return (
     <>
       <SearchBar onSubmit={loadImg} />
       <main>
-        {gallery.images?.length ? (
+        {gallery ? (
           <ImageGallery
             ref={galleryRef}
             images={gallery.images}
@@ -64,10 +69,10 @@ function App() {
           <ErrorMessage />
         )}
         {isLoading && <Loader />}
-        {gallery.pagesLoaded < gallery.pagesAvailable && (
+        {gallery?.pagesLoaded < gallery?.pagesAvailable && (
           <LoadMoreBtn gallery={gallery} onClick={loadImg} />
         )}
-        {imgForModal.urls.full && (
+        {imgForModal && (
           <ImageModal
             modalIsOpen={modalIsOpen}
             image={imgForModal}
@@ -75,6 +80,20 @@ function App() {
           />
         )}
       </main>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            border: '2px solid #20b2aa',
+            background: 'transparent',
+            color: '#fafafa',
+          },
+          iconTheme: {
+            primary: '#ff0000',
+            secondary: '#fafafa',
+          },
+        }}
+      />
     </>
   );
 }
